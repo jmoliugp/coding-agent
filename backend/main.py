@@ -9,7 +9,6 @@ from dotenv import load_dotenv
 from fastapi import BackgroundTasks, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
-
 from models import (
     FileContentResponse,
     FileInfo,
@@ -23,7 +22,7 @@ from streaming import sse_generator_sync
 
 load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
-app = FastAPI(title="Coding Agent Demo")
+app = FastAPI(title="Coding Agent")
 
 cors_origin = os.getenv("CORS_ORIGIN", "http://localhost:5173")
 app.add_middleware(
@@ -94,7 +93,9 @@ def stream_task(task_id: str):
                 yield chunks[sent]
                 sent += 1
 
-            if status in (TaskStatus.completed, TaskStatus.error) and sent >= len(chunks):
+            if status in (TaskStatus.completed, TaskStatus.error) and sent >= len(
+                chunks
+            ):
                 break
 
             import time
@@ -132,7 +133,9 @@ def list_files(task_id: str):
     return FileListResponse(files=_resolve_project_files(task_id))
 
 
-@app.get("/api/tasks/{task_id}/files/{file_path:path}", response_model=FileContentResponse)
+@app.get(
+    "/api/tasks/{task_id}/files/{file_path:path}", response_model=FileContentResponse
+)
 def get_file(task_id: str, file_path: str):
     if task_id not in tasks:
         raise HTTPException(status_code=404, detail="Task not found")
@@ -146,4 +149,6 @@ def get_file(task_id: str, file_path: str):
     if not full_path.is_file():
         raise HTTPException(status_code=404, detail="File not found")
 
-    return FileContentResponse(path=file_path, content=full_path.read_text(encoding="utf-8"))
+    return FileContentResponse(
+        path=file_path, content=full_path.read_text(encoding="utf-8")
+    )
