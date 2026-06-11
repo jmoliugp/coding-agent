@@ -17,8 +17,8 @@ export default function App() {
   const isRunning = status === 'running'
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white flex flex-col">
-      <header className="border-b border-slate-700 px-6 py-4 flex items-center justify-between">
+    <div className="h-screen bg-slate-950 text-white flex flex-col overflow-hidden">
+      <header className="shrink-0 border-b border-slate-700 px-6 py-4 flex items-center justify-between">
         <div>
           <h1 className="text-lg font-bold tracking-wide">CODING AGENT</h1>
           {projectPath && (
@@ -30,20 +30,20 @@ export default function App() {
         <BudgetMeter budget={budget} status={status} />
       </header>
 
-      <main className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-0 min-h-0">
-        <section className="border-r border-slate-700 p-4 min-h-[40vh] lg:min-h-0 overflow-hidden flex flex-col">
+      <main className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-0 min-h-0 overflow-hidden">
+        <section className="border-r border-slate-700 p-4 overflow-hidden flex flex-col">
           <AgentTrace events={events} />
         </section>
 
-        <section className="p-4 min-h-[40vh] lg:min-h-0 overflow-hidden flex flex-col gap-4">
-          <div className="h-1/3 min-h-[120px]">
+        <section className="p-4 overflow-hidden flex flex-col gap-4">
+          <div className="h-1/3 min-h-[120px] overflow-hidden flex flex-col">
             <FileExplorer
               tree={tree}
               selectedFile={selectedFile}
               onSelect={setSelectedFile}
             />
           </div>
-          <div className="flex-1 min-h-0 border border-slate-600 rounded-lg p-3 bg-slate-900/50">
+          <div className="flex-1 min-h-0 border border-slate-600 rounded-lg p-3 bg-slate-900/50 overflow-hidden">
             <FileViewer
               path={selectedFile}
               content={selectedFile ? files.get(selectedFile) ?? null : null}
@@ -52,7 +52,7 @@ export default function App() {
         </section>
       </main>
 
-      <footer className="px-6 pb-6">
+      <footer className="shrink-0 px-6 pb-6">
         {error && (
           <div className="mb-3 border border-red-500 rounded p-3 bg-red-950/50 text-sm text-red-400">
             {error}
