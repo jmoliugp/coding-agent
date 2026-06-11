@@ -1,0 +1,13 @@
+{
+  "name": "coding-agent-demo",
+  "private": true,
+  "workspaces": ["frontend"],
+  "scripts": {
+    "bootstrap": "bash scripts/bootstrap.sh",
+    "dev": "bash scripts/dev.sh",
+    "dev:frontend": "bun run --cwd frontend dev",
+    "dev:backend": "cd backend && source .venv/bin/activate && uvicorn main:app --reload --port 8000",
+    "install:all": "bash scripts/bootstrap.sh",
+    "build": "bun run --cwd frontend build"
+  }
+}
